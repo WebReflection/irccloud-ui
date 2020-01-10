@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+if [ "$1" = "quant" ]; then
+  for png in $(ls icons/*.png); do
+    pngquant --strip -f $png --output $png.optimized
+    mv $png.optimized $png
+  done
+fi
+
+rm -rf *.zip
+mkdir -p extension/icons
+cp -R js extension/
+cp icons/*.png extension/icons/
+cp LICENSE extension/
+cp manifest.json extension/
+cd extension
+zip -r -FS ../extension.zip * --exclude *.git*
+cd -
+rm -rf extension
